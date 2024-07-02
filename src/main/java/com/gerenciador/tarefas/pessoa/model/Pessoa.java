@@ -4,7 +4,10 @@ import com.gerenciador.tarefas.departamento.model.Departamento;
 import com.gerenciador.tarefas.pessoa.dto.PessoaRequest;
 import com.gerenciador.tarefas.tarefa.model.Tarefa;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
@@ -27,15 +30,13 @@ public class Pessoa {
     @ManyToOne
     private Departamento departamento;
 
-    @OneToMany(mappedBy = "pessoa", fetch = FetchType.LAZY)
+    @OneToMany
     private List<Tarefa> tarefas;
 
     public static Pessoa of(PessoaRequest request) {
         return Pessoa
                 .builder()
                 .nome(request.getNome())
-                .tarefas(request.getTarefas())
-                .departamento(request.getDepartamento())
                 .build();
     }
 
@@ -43,8 +44,6 @@ public class Pessoa {
         return Pessoa
                 .builder()
                 .nome(request.getNome())
-                .tarefas(request.getTarefas())
-                .departamento(request.getDepartamento())
                 .build();
     }
 }

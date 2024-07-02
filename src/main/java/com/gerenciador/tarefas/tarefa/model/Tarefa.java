@@ -1,8 +1,9 @@
 package com.gerenciador.tarefas.tarefa.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-//import com.gerenciador.tarefas.departamento.model.Departamento;
+import com.gerenciador.tarefas.departamento.model.Departamento;
 import com.gerenciador.tarefas.pessoa.model.Pessoa;
+import com.gerenciador.tarefas.tarefa.dto.TarefaRequest;
+import com.gerenciador.tarefas.tarefa.enums.ESituacao;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -34,8 +35,8 @@ public class Tarefa {
     @Column(name = "PRAZO")
     private LocalDateTime prazo;
 
-//    @Column(name = "DEPARTAMENTO")
-//    private Departamento departamento;
+    @ManyToOne
+    private Departamento departamento;
 
     @Column(name = "DURACAO")
     private LocalTime duracao;
@@ -43,6 +44,16 @@ public class Tarefa {
     @ManyToOne(fetch = FetchType.LAZY)
     private Pessoa pessoa;
 
-    @Column(name = "FINALIZADO")
-    private boolean finalizado;
+    @Column(name = "SITUACAO")
+    private ESituacao situacao;
+
+    public static Tarefa of(TarefaRequest request) {
+        return Tarefa
+                .builder()
+                .titulo(request.getTitulo())
+                .descricao(request.getDescricao())
+                .prazo(request.getPrazo())
+                .duracao(request.getDuracao())
+                .build();
+    }
 }

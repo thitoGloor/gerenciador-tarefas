@@ -1,5 +1,7 @@
 package com.gerenciador.tarefas.pessoa.service;
 
+import com.gerenciador.tarefas.comum.exception.NotFoundException;
+import com.gerenciador.tarefas.departamento.service.DepartamentoService;
 import com.gerenciador.tarefas.pessoa.dto.PessoaRequest;
 import com.gerenciador.tarefas.pessoa.dto.PessoaResponse;
 import com.gerenciador.tarefas.pessoa.model.Pessoa;
@@ -12,9 +14,14 @@ import org.springframework.stereotype.Service;
 public class PessoaService {
 
     private final PessoaRepository repository;
+    private final DepartamentoService departamentoService;
 
     public PessoaResponse salvar(PessoaRequest request) {
+        var departamento = departamentoService.findById(request.getDepartamentoId());
         var pessoa = Pessoa.of(request);
+        if (departamento != null){
+            pessoa.setDepartamento(departamento);
+        }
         repository.save(pessoa);
 
         return PessoaResponse.of(pessoa);
@@ -33,6 +40,9 @@ public class PessoaService {
 
     private Pessoa findById(Integer id) {
         return repository.findById(id)
-                .orElseThrow(null);
+                .orElseThrow(() -> new NotFoundException("Pessoa nâo encontrada."));
+    }
+    private void validarDepartamento(Integer id) {
+        var departamento = departamentoService.findById(id);
     }
 }
