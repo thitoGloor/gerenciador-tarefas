@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
@@ -21,9 +22,9 @@ public class TarefaResponse {
     private String titulo;
     private String descricao;
     @JsonFormat(pattern = "dd/MM/yyyy")
-    private LocalDateTime prazo;
+    private LocalDate prazo;
     private String departamentoDescricao;
-    private LocalTime duracao;
+    private Double duracao;
     private String pessoaNome;
     private ESituacao situacao;
 

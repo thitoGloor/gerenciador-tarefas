@@ -10,6 +10,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
@@ -33,13 +34,13 @@ public class Tarefa {
     private String descricao;
 
     @Column(name = "PRAZO")
-    private LocalDateTime prazo;
+    private LocalDate prazo;
 
     @ManyToOne
     private Departamento departamento;
 
     @Column(name = "DURACAO")
-    private LocalTime duracao;
+    private Double duracao;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Pessoa pessoa;

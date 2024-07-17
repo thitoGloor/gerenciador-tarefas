@@ -4,10 +4,7 @@ import com.gerenciador.tarefas.tarefa.dto.TarefaRequest;
 import com.gerenciador.tarefas.tarefa.dto.TarefaResponse;
 import com.gerenciador.tarefas.tarefa.service.TarefaService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,6 +16,11 @@ public class TarefaController {
     @PostMapping
     public TarefaResponse salvar(@RequestBody TarefaRequest request) {
         return service.salvar(request);
+    }
+
+    @PutMapping("alocar/{id}")
+    public void alocarPessoa(@PathVariable Integer id) {
+//        service
     }
 
 }

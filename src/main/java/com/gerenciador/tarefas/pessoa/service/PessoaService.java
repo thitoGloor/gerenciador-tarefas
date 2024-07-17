@@ -2,12 +2,17 @@ package com.gerenciador.tarefas.pessoa.service;
 
 import com.gerenciador.tarefas.comum.exception.NotFoundException;
 import com.gerenciador.tarefas.departamento.service.DepartamentoService;
+import com.gerenciador.tarefas.pessoa.dto.PessoaFiltros;
 import com.gerenciador.tarefas.pessoa.dto.PessoaRequest;
 import com.gerenciador.tarefas.pessoa.dto.PessoaResponse;
 import com.gerenciador.tarefas.pessoa.model.Pessoa;
 import com.gerenciador.tarefas.pessoa.repository.PessoaRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -17,9 +22,10 @@ public class PessoaService {
     private final DepartamentoService departamentoService;
 
     public PessoaResponse salvar(PessoaRequest request) {
-        var departamento = departamentoService.findById(request.getDepartamentoId());
         var pessoa = Pessoa.of(request);
-        if (departamento != null){
+
+        if (request.getDepartamentoId() != null) {
+            var departamento = departamentoService.findById(request.getDepartamentoId());
             pessoa.setDepartamento(departamento);
         }
         repository.save(pessoa);
@@ -38,10 +44,22 @@ public class PessoaService {
         repository.deleteById(id);
     }
 
+    public List<PessoaResponse> findAll() {
+        var pessoas = repository.findAll();
+        return PessoaResponse.convertFrom(pessoas);
+    }
+
+    public Page<PessoaResponse> findAllTwo(PessoaFiltros filtros, Pageable pageable) {
+        var predicate = filtros.toPredicate().build();
+        var pessoas = repository.findAll(predicate, pageable);
+        return pessoas.map(PessoaResponse::of);
+    }
+
     private Pessoa findById(Integer id) {
         return repository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Pessoa nâo encontrada."));
     }
+
     private void validarDepartamento(Integer id) {
         var departamento = departamentoService.findById(id);
     }

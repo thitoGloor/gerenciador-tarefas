@@ -24,4 +24,5 @@ public class TarefaService {
         repository.save(tarefa);
         return TarefaResponse.of(tarefa);
     }
+//    private void validarDepartamento()
 }

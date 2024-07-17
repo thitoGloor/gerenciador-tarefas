@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
@@ -18,8 +19,7 @@ public class TarefaRequest {
     private String titulo;
     private String descricao;
     @JsonFormat(pattern = "dd/MM/yyyy")
-    private LocalDateTime prazo;
-    @JsonFormat(pattern = "HH:mm")
-    private LocalTime duracao;
+    private LocalDate prazo;
+    private Double duracao;
     private Integer departamentoId;
 }
